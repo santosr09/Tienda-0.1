@@ -1,0 +1,55 @@
+package com.juanjo.entity;
+
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="categoria")
+public class Categoria {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	/*For Use with PostgreSQL
+	@GeneratedValue(generator="categoria_seq")
+	@SequenceGenerator(name="categoria_seq", sequenceName="categoria_id_seq")
+	*/
+	private long id = 0;
+	@Column(name="descripcion")
+	private String descripcion = null;
+	@Column(name="status")
+	private int status =0;
+	@OneToMany(mappedBy="categoria")
+	private Set<Producto> productos;
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	@Override
+	public String toString() {
+		return descripcion;
+	}
+
+}

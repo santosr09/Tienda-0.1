@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 14, 2014 10:20:46 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="org.juanjo.entity.Categoria" table="categoria">
+		<id name="id">
+			<column name="id" />
+			<generator class="sequence">
+				<param name="sequence">categoria_id_seq</param>
+			</generator>
+		</id>
+
+		<property name="descripcion">
+			<column name="descripcion" />
+		</property>
+	</class>
+</hibernate-mapping>

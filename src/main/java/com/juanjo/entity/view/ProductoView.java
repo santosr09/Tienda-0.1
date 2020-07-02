@@ -13,14 +13,11 @@ public class ProductoView {
 	private Marca marca = null;
 	private Categoria categoria = null;
 	private Integer status = 0;
-	private String imagen = null;
 	private Double max;
 	private Double min;
 	private Double existencia;
 	private Double precioVenta;
 	private Double precioCompra;
-	private Double utilidadPorcentaje;
-	private Double utilidadMonetaria;
 	private String presentacionVenta;
 	private String presentacionCompra;
 	
@@ -32,14 +29,12 @@ public class ProductoView {
 		this.marca = producto.getProducto().getMarca();
 		this.categoria = producto.getProducto().getCategoria();
 		this.status = producto.getProducto().getStatus();
-		this.imagen = producto.getProducto().getImagen();
 		this.max = producto.getMax();
 		this.min = producto.getMin();
 		this.existencia = producto.getExistencia();
 		this.precioVenta = producto.getPrecioVenta();
-		this.precioCompra = producto.getPrecioCompra();
-		this.utilidadPorcentaje = producto.getUtilidadPorcentaje();
-		this.utilidadMonetaria = producto.getUtilidadMonetaria();
+		//this.precioCompra = producto.getPrecioCompraPromedio();
+		this.precioCompra = producto.getPrecioCompraUltimo();
 		this.presentacionVenta = producto.getPresentacionVenta();
 		this.presentacionCompra = producto.getPresentacionCompra();
 	}
@@ -86,12 +81,6 @@ public class ProductoView {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public String getImagen() {
-		return imagen;
-	}
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
 	public Double getMax() {
 		return max;
 	}
@@ -121,18 +110,6 @@ public class ProductoView {
 	}
 	public void setPrecioCompra(Double precioCompra) {
 		this.precioCompra = precioCompra;
-	}
-	public Double getUtilidadPorcentaje() {
-		return utilidadPorcentaje;
-	}
-	public void setUtilidadPorcentaje(Double utilidadPorcentaje) {
-		this.utilidadPorcentaje = utilidadPorcentaje;
-	}
-	public Double getUtilidadMonetaria() {
-		return utilidadMonetaria;
-	}
-	public void setUtilidadMonetaria(Double utilidadMonetaria) {
-		this.utilidadMonetaria = utilidadMonetaria;
 	}
 	public String getPresentacionVenta() {
 		return presentacionVenta;

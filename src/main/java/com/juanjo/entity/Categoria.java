@@ -21,35 +21,41 @@ public class Categoria {
 	@SequenceGenerator(name="categoria_seq", sequenceName="categoria_id_seq")
 	*/
 	private long id = 0;
-	@Column(name="descripcion")
-	private String descripcion = null;
-	@Column(name="status")
-	private int status =0;
+	@Column(name="nombre")
+	private String nombre = null;
 	@OneToMany(mappedBy="categoria")
 	private Set<Producto> productos;
 	
 	public long getId() {
 		return id;
 	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	
+	public String getNombre() {
+		return nombre;
 	}
 	
-	public int getStatus() {
-		return status;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	
+	public Set<Producto> getProductos() {
+		return productos;
 	}
+	
+	public void setProductos(Set<Producto> productos) {
+		this.productos = productos;
+	}
+	
 	@Override
 	public String toString() {
-		return descripcion;
+		return "Categoria{" +
+							 "id=" + id +
+							 ", nombre='" + nombre + '\'' +
+							 ", productos=" + productos +
+							 '}';
 	}
-
 }

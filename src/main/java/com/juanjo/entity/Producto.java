@@ -38,8 +38,6 @@ public class Producto implements Serializable{
 	private Categoria categoria = null;
 	@Column(name="status")
 	private Integer status = 0;
-	@Column(name = "imagen")
-	private String imagen = null;
 	
 	public long getId() {
 		return id;
@@ -82,12 +80,6 @@ public class Producto implements Serializable{
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-	public String getImagen() {
-		return imagen;
-	}
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
 	}
 	
 	@Override

@@ -22,90 +22,149 @@ public class ProductoAlmacenado implements Serializable{
 	@OneToOne
 	@JoinColumn(name="id_producto")
 	private Producto producto;
-	@Column(name = "max")
+	@Column(name = "existencia_maxima")
 	private Double max;
-	@Column(name = "min")
+	@Column(name = "existencia_minima")
 	private Double min;
+	@Column(name = "existencia_virtual")
+	private Double existenciaVirtual;
 	@Column(name = "existencia")
 	private Double existencia;
+	@Column(name = "precio_compra_ultimo")
+	private Double precioCompraUltimo;
+	@Column(name = "precio_compra_promedio")
+	private Double precioCompraPromedio;
+	@Column(name = "precio_venta_minimo")
+	private Double precioVentaMinimo;
+	@Column(name = "precio_venta_calculado")
+	private Double precioVentaCalculado;
 	@Column(name = "precio_venta")
 	private Double precioVenta;
-	@Column(name = "precio_compra")
-	private Double precioCompra;
-	@Column(name = "utilidad_porcentaje")
-	private Double utilidadPorcentaje;
-	@Column(name = "utilidad_monetaria")
-	private Double utilidadMonetaria;
-	@Column(name = "presentacion_venta")
+	@Column(name = "id_presentacion_venta")
 	private String presentacionVenta;
-	@Column(name = "presentacion_compra")
+	@Column(name = "id_presentacion_compra")
 	private String presentacionCompra;
 	
 	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	
+	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public Producto getProducto() {
 		return producto;
 	}
+	
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
+	
 	public Double getMax() {
 		return max;
 	}
+	
 	public void setMax(Double max) {
 		this.max = max;
 	}
+	
 	public Double getMin() {
 		return min;
 	}
+	
 	public void setMin(Double min) {
 		this.min = min;
 	}
+	
+	public Double getExistenciaVirtual() {
+		return existenciaVirtual;
+	}
+	
+	public void setExistenciaVirtual(Double existenciaVirtual) {
+		this.existenciaVirtual = existenciaVirtual;
+	}
+	
 	public Double getExistencia() {
 		return existencia;
 	}
+	
 	public void setExistencia(Double existencia) {
 		this.existencia = existencia;
 	}
+	
+	public Double getPrecioCompraUltimo() {
+		return precioCompraUltimo;
+	}
+	
+	public void setPrecioCompraUltimo(Double precioCompraUltimo) {
+		this.precioCompraUltimo = precioCompraUltimo;
+	}
+	
+	public Double getPrecioCompraPromedio() {
+		return precioCompraPromedio;
+	}
+	
+	public void setPrecioCompraPromedio(Double precioCompraPromedio) {
+		this.precioCompraPromedio = precioCompraPromedio;
+	}
+	
+	public Double getPrecioVentaMinimo() {
+		return precioVentaMinimo;
+	}
+	
+	public void setPrecioVentaMinimo(Double precioVentaMinimo) {
+		this.precioVentaMinimo = precioVentaMinimo;
+	}
+	
+	public Double getPrecioVentaCalculado() {
+		return precioVentaCalculado;
+	}
+	
+	public void setPrecioVentaCalculado(Double precioVentaCalculado) {
+		this.precioVentaCalculado = precioVentaCalculado;
+	}
+	
 	public Double getPrecioVenta() {
 		return precioVenta;
 	}
+	
 	public void setPrecioVenta(Double precioVenta) {
 		this.precioVenta = precioVenta;
 	}
-	public Double getPrecioCompra() {
-		return precioCompra;
-	}
-	public void setPrecioCompra(Double precioCompra) {
-		this.precioCompra = precioCompra;
-	}
-	public Double getUtilidadPorcentaje() {
-		return utilidadPorcentaje;
-	}
-	public void setUtilidadPorcentaje(Double utilidadPorcentaje) {
-		this.utilidadPorcentaje = utilidadPorcentaje;
-	}
-	public Double getUtilidadMonetaria() {
-		return utilidadMonetaria;
-	}
-	public void setUtilidadMonetaria(Double utilidadMonetaria) {
-		this.utilidadMonetaria = utilidadMonetaria;
-	}
+	
 	public String getPresentacionVenta() {
 		return presentacionVenta;
 	}
+	
 	public void setPresentacionVenta(String presentacionVenta) {
 		this.presentacionVenta = presentacionVenta;
 	}
+	
 	public String getPresentacionCompra() {
 		return presentacionCompra;
 	}
+	
 	public void setPresentacionCompra(String presentacionCompra) {
 		this.presentacionCompra = presentacionCompra;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "ProductoAlmacenado{" +
+							 "id=" + id +
+							 ", producto=" + producto +
+							 ", max=" + max +
+							 ", min=" + min +
+							 ", existenciaVirtual=" + existenciaVirtual +
+							 ", existencia=" + existencia +
+							 ", precioCompraUltimo=" + precioCompraUltimo +
+							 ", precioCompraPromedio=" + precioCompraPromedio +
+							 ", precioVentaMinimo=" + precioVentaMinimo +
+							 ", precioVentaCalculado=" + precioVentaCalculado +
+							 ", precioVenta=" + precioVenta +
+							 ", presentacionVenta='" + presentacionVenta + '\'' +
+							 ", presentacionCompra='" + presentacionCompra + '\'' +
+							 '}';
+	}
 }

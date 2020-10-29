@@ -1,53 +1,49 @@
-package com.juanjo.entity;
+package com.juanjo.entity.view;
 
-import java.io.Serializable;
+import com.juanjo.entity.DetalleVenta;
+import com.juanjo.entity.NotaVenta;
+
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-@Table(name="nota_venta")
-public class NotaVenta implements Serializable{
-
-	private static final long serialVersionUID = 7993089341801405296L;
-	//@Id
-	//@GeneratedValue(generator="nota_seq")
-	//@SequenceGenerator(name="nota_seq", sequenceName="nota_id_seq")
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	@Column(name = "fecha_hora")
+public class NotaVentaView {
+	private String folio="0";
 	private String fechaHora;
-	@Column(name = "cliente")
 	private String cliente;
-	@Column(name = "vendedor")
 	private String vendedor;
-	@Column(name = "total_articulos")
-	private Double totalArticulos;
-	@Column(name = "monto_total")
-	private Double montoTotal;
-	@OneToMany(cascade = {CascadeType.ALL})
-	@JoinColumn(name="id_detalle")
+	private Double totalArticulos=0.0;
+	private Double montoTotal=0.0;
 	private List<DetalleVenta> detalleVenta;
 	
-	public Long getId() {
-		return id;
+	public NotaVentaView(NotaVenta notaEntity) {
+		this.folio = String.valueOf(notaEntity.getId());
+		this.fechaHora = notaEntity.getFechaHora();
+		this.cliente = notaEntity.getCliente();
+		this.vendedor = notaEntity.getVendedor();
+		this.totalArticulos = notaEntity.getTotalArticulos();
+		this.montoTotal = notaEntity.getMontoTotal();
+		this.detalleVenta = notaEntity.getDetalleVenta();
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
+	public NotaVentaView() { }
+	
+	public NotaVenta getNotaVentaEntity(){
+		NotaVenta notaEntity = new NotaVenta();
+		notaEntity.setId(Long.valueOf(this.folio));
+		notaEntity.setFechaHora(this.fechaHora );
+		notaEntity.setCliente(this.cliente);
+		notaEntity.setVendedor(this.vendedor);
+		notaEntity.setTotalArticulos(this.totalArticulos);
+		notaEntity.setMontoTotal(this.montoTotal);
+		notaEntity.setDetalleVenta(this.detalleVenta);
+		return notaEntity;
+	}
+	
+	public String getFolio() {
+		return folio;
+	}
+	
+	public void setFolio(String folio) {
+		this.folio = folio;
 	}
 	
 	public String getFechaHora() {
@@ -100,8 +96,8 @@ public class NotaVenta implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "NotaVenta{" +
-							 "id=" + id +
+		return "NotaVentaView{" +
+							 "folio='" + folio + '\'' +
 							 ", fechaHora='" + fechaHora + '\'' +
 							 ", cliente='" + cliente + '\'' +
 							 ", vendedor='" + vendedor + '\'' +
@@ -110,5 +106,4 @@ public class NotaVenta implements Serializable{
 							 ", detalleVenta=" + detalleVenta +
 							 '}';
 	}
-	
 }

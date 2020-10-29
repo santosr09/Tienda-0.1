@@ -2,6 +2,7 @@ package com.juanjo.dao;
 
 import java.io.Serializable;
 
+import com.juanjo.entity.view.NotaVentaView;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -33,16 +34,15 @@ private static final Logger log = LoggerFactory.getLogger(NotaVentaDAOImpl.class
 	}
 
 	@Override
-	public Serializable crearNotaVenta(NotaVenta nota) {
+	public NotaVenta crearNotaVenta(NotaVentaView nota) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Serializable serial = session.save(nota);
-		log.info("NotaVenta creada exitosamente, serial: {}", serial);
-		System.out.println("NotaVenta creada exitosamente, serial: {}"+ serial);
-		return serial;
+		Serializable serial = session.save(nota.getNotaVentaEntity());
+		log.info("DAO NotaVenta creada exitosamente, serial: {}", serial);
+		return (NotaVenta) session.get(NotaVenta.class, serial);
 	}
 
 	@Override
-	public NotaVenta getNotaVenta(long id) {
+	public NotaVenta getNotaVenta(Long id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		NotaVenta nota = (NotaVenta)session.get(NotaVenta.class, id);
 		log.info("Nota encontrada: {}", nota);

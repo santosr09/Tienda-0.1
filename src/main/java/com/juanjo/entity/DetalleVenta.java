@@ -30,15 +30,15 @@ public class DetalleVenta implements Serializable{
 	@SequenceGenerator(name="nota_detalle_seq", sequenceName="nota_detalle_id_seq")
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name="id_nota")
+	@JoinColumn(name="id_nota_venta")
 	private NotaVenta notaVenta;
 	@OneToOne
 	@JoinColumn(name="id_producto")
 	private ProductoAlmacenado productoVenta;
-	@Column(name="cantidad")
-	private Double cantidad;
-	@Column(name="precio_venta")
-	private Double precioVenta;
+	@Column(name="unidades")
+	private Double unidades;
+	@Column(name="monto_total")
+	private Double montoTotal;
 	
 	public Long getId() {
 		return id;
@@ -58,18 +58,6 @@ public class DetalleVenta implements Serializable{
 	public void setProductoVenta(ProductoAlmacenado productoVenta) {
 		this.productoVenta = productoVenta;
 	}
-	public Double getCantidad() {
-		return cantidad;
-	}
-	public void setCantidad(Double cantidad) {
-		this.cantidad = cantidad;
-	}
-	public Double getPrecioVenta() {
-		return precioVenta;
-	}
-	public void setPrecioVenta(Double precioVenta) {
-		this.precioVenta = precioVenta;
-	}
 	public int getRowNum() {
 		return rowNum;
 	}
@@ -82,5 +70,21 @@ public class DetalleVenta implements Serializable{
 	public void setTotalLinea(Double totalLinea) {
 		this.totalLinea = totalLinea;
 	}
-
+	
+	public Double getUnidades() {
+		return unidades;
+	}
+	
+	public void setUnidades(Double unidades) {
+		this.unidades = unidades;
+	}
+	
+	public Double getMontoTotal() {
+		return montoTotal;
+	}
+	
+	public void setMontoTotal(Double montoTotal) {
+		this.montoTotal = montoTotal;
+	}
+	
 }

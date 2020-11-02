@@ -78,11 +78,12 @@ $(document).ready(function(){
   	
   	<div class="panel-body">
   	<c:url var="searchAction" value="/ventas/search" ></c:url>
-    	<form:form action="${searchAction}" modelAttribute="productoView" id="search-form" role = "form">
-		<form:label path="clave">
+    	<form:form action="${searchAction}" commandName="producto" id="search-form" role = "form">
+		
+		<form:label path="producto.clave">
         	<spring:message text="Clave"/>
         </form:label>
-		<form:input id="claveInput" path="clave" />
+		<form:input id="claveInput" path="producto.clave" />
 		<input type="submit" id="button-search"
 			value="<spring:message text="Buscar"/>" />
 
@@ -92,7 +93,7 @@ $(document).ready(function(){
   	<!-- Table -->
   	<table  class="table table-fixed" id="notaTable">
   	<c:url var="cobrarAction" value="/ventas/cobrar" ></c:url>
-  	<form:form action="${cobrarAction}" commandName="notaView" id="nota-form" role = "form">
+  	<form:form action="${cobrarAction}" commandName="nota" id="nota-form" role = "form">
   		<thead>
   			<tr>
   				<th class='col-md-1'>No.</th>

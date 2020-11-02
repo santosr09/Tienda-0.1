@@ -3,7 +3,6 @@ package com.juanjo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.juanjo.entity.view.NotaVentaView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,42 +47,38 @@ public class NotaVentaController {
 	}
 
 	@GetMapping(value = "/ventas")
-	public String crearNota(Model model) {
-		NotaVentaView notaView = new NotaVentaView(notaVentaService.crearNota(new NotaVentaView()));
-		LOGGER.debug("## /ventas/ ## nota: "+ notaView);
-		model.addAttribute("notaView", notaView);
-		model.addAttribute("productoView", new ProductoView());
-		return "nota-venta-form";
-	}
-	
-	@GetMapping(value = "/ventas/{idNota}")
-	public String cargaNota(@PathVariable String idNota, Model model) {
-		LOGGER.debug("## ventas/id ide de la nota: "+ idNota);
-		model.addAttribute("productoView", new ProductoView());
-		return "nota-venta";
+	public String cargaNota( Model model) {
+		NotaVenta nota = new NotaVenta();
+		nota.setMontoTotal(totalAcumulado);
+		LOGGER.debug("## /ventas/ ## nota: "+ nota);
+		nota.setDetalleVenta(listadoVenta);
+		model.addAttribute("nota", nota);
+		model.addAttribute("producto", new ProductoAlmacenado());
+		model.addAttribute("detalleVenta", nota.getDetalleVenta());
+		model.addAttribute("productos", productos);
+
+		return "NotaVenta";
 	}
 
+	@RequestMapping(value = "/NotaVenta", method = RequestMethod.GET)
+	public String notaCargada(@ModelAttribute("nota") NotaVenta nota) {
+		LOGGER.debug("## /Notaventa ## nota: "+ nota);
+		return "NotaVenta";
+	}
 
 	@PostMapping(value = "/ventas/search")
-	//public String searchPrecio(@ModelAttribute("nota") NotaVentaView nota,
-	public String searchPrecio(@ModelAttribute("notaView") NotaVentaView nota,
-			@ModelAttribute("productoView") ProductoView producto, Model model) {
-		System.out.println("/ventas/search  - NotaVenta: "+ nota);
-		String clave = producto.getClave();
-		System.out.println("clave a buscar: "+ clave);
+	public String searchPrecio(@ModelAttribute("nota") NotaVenta nota,
+			@ModelAttribute("producto") ProductoAlmacenado producto, Model model) {
+
+		String clave = producto.getProducto().getClave();
 		if (clave != null && !(clave.trim().isEmpty())) {
 			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
-			System.out.println("Producto Almacenado: "+ item);
-			if(item == null) {
-				model.addAttribute("productoView", new ProductoView());
-				return "redirect:/ventas/" + nota.getFolio();
-			}
-			LOGGER.debug("detalle en notaVenta: " + nota.getDetalleVenta());
 			DetalleVenta detalle = new DetalleVenta();
-			//detalle.setNotaVenta(nota);
-			detalle.setUnidades(1.0);
+			detalle.setNotaVenta(nota);
+			detalle.setCantidad(1.0);
+			detalle.setPrecioVenta(item.getPrecioVenta());
 			detalle.setProductoVenta(item);
-			double subTot = detalle.getUnidades() * item.getPrecioVenta();
+			double subTot = detalle.getCantidad() * detalle.getPrecioVenta();
 			detalle.setTotalLinea(subTot);
 			detalle.setRowNum(listadoVenta.size() + 1);
 			listadoVenta.add(0, detalle);
@@ -92,14 +87,13 @@ public class NotaVentaController {
 			nota.setMontoTotal(totalAcumulado);
 
 			LOGGER.info("## /ventas/search ## nota.toString: "+ nota);
-			model.addAttribute("notaView", nota);
-			model.addAttribute("productoView", new ProductoView(item));
+			model.addAttribute("nota", nota);
 
+			model.addAttribute("detalleVenta", nota.getDetalleVenta());
+			model.addAttribute("productos", productos);
 		}
 
-		return "redirect:/ventas/" + nota.getFolio();
-		//return "redirect:/nota-venta-form";
-		//return "nota-venta-form";
+		return "redirect:/ventas";
 	}
 
 	@PostMapping(value = "/ventas/updateQty")
@@ -110,8 +104,8 @@ public class NotaVentaController {
 		Double cantNva = new Double(cantidadNueva);
 		int indice = new Integer(row) - 1;
 		DetalleVenta detalle = listadoVenta.get(indice);
-		detalle.setUnidades(cantNva);
-		double subTot = 99.99;
+		detalle.setCantidad(cantNva);
+		double subTot = detalle.getPrecioVenta() * cantNva;
 		detalle.setTotalLinea(subTot);
 		System.out.println("double TotalLinea: " + subTot);
 		listadoVenta.set(indice, detalle);

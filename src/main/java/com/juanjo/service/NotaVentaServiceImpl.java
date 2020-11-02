@@ -4,12 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.juanjo.entity.DetalleVenta;
-import com.juanjo.entity.ProductoAlmacenado;
-import com.juanjo.entity.view.DetalleVentaView;
-import com.juanjo.entity.view.NotaVentaView;
-import com.juanjo.entity.view.ProductoView;
-import com.juanjo.utils.DateUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,38 +12,36 @@ import com.juanjo.dao.NotaVentaDAO;
 import com.juanjo.dao.ProductoAlmacenadoDAO;
 import com.juanjo.entity.NotaVenta;
 import com.juanjo.entity.Producto;
+import com.juanjo.entity.view.ProductoView;
 
 @Service
 public class NotaVentaServiceImpl implements NotaVentaService {
 	@Autowired
-	private NotaVentaDAO notaVentaDAO;
+	private NotaVentaDAO dao;
 	private ProductoAlmacenadoDAO daoAlmacen;
 	private List<Producto> listado;
 	
 	private long idNota;
 	
 	@Transactional
-	public NotaVenta crearNota(NotaVentaView nota){
-		nota.setFechaHora(DateUtilities.getStrCurrentDate());
-		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
-		NotaVenta newNota = notaVentaDAO.crearNotaVenta(nota);
-		System.out.println("Service NotaVenta creada exitosamente, serial: {}"+ newNota);
-		return newNota;
+	public void crearNota(NotaVenta nota){
+		Serializable serial = dao.crearNotaVenta(nota);
+		System.out.println("NotaVenta creada exitosamente, serial: {}"+ serial);
 	}
 	
 	@Transactional
 	public NotaVenta getNotaVenta(long id){
-		return notaVentaDAO.getNotaVenta(id);
+		return dao.getNotaVenta(id);
 	}
 
 	@Transactional
 	public void vender(NotaVenta nota) {
-		notaVentaDAO.vender(nota);
+		dao.vender(nota);
 	}
 
 	@Transactional
 	public void devolver(NotaVenta nota) {
-		notaVentaDAO.devolver(nota);
+		dao.devolver(nota);
 	}
 
 	@Transactional
@@ -63,32 +55,26 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	}
 
 	@Override
-	public NotaVentaView agregarProductoaNota(String claveProducto, DetalleVentaView detalleVentaView) {
-		ProductoAlmacenado producto = daoAlmacen.getProductoPorBarcode(claveProducto);
-		detalleVentaView.setProductoVenta(producto);
-		return actualizaListadoNota(detalleVentaView);
+	public void agregarProductoaNota(Producto item) {
+		listado.add(item);
+		
 	}
 	
-	public void actualizaLineaNota(DetalleVentaView detalleVentaView){
-		//detalleVentaView.
+	public void setDao(NotaVentaDAO dao) {
+		this.dao = dao;
 	}
-	
-	private NotaVentaView actualizaListadoNota(DetalleVentaView detalleVentaView) {
-		detalleVentaView.getNotaVentaView().getDetalleVenta().set(detalleVentaView.getRowNum(), detalleVentaView.getEntity());
-		return detalleVentaView.getNotaVentaView();
+
+	public NotaVentaDAO getDao() {
+		return dao;
 	}
-	
-	public void setNotaVentaDAO(NotaVentaDAO dao) {
-		this.notaVentaDAO = dao;
-	}
-	public NotaVentaDAO getNotaVentaDao() {
-		return notaVentaDAO;
-	}
+
 	public ProductoAlmacenadoDAO getDaoAlmacen() {
 		return daoAlmacen;
 	}
+
 	public void setDaoAlmacen(ProductoAlmacenadoDAO daoAlmacen) {
 		this.daoAlmacen = daoAlmacen;
 	}
-	
+
+
 }

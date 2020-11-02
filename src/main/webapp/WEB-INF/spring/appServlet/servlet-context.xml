@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
@@ -86,7 +84,7 @@
         <beans:property name="daoAlmacen" ref="productoAlmacenadoDAO"></beans:property>
     </beans:bean>
     <beans:bean id="notaVentaService" class="com.juanjo.service.NotaVentaServiceImpl">
-    	<beans:property name="notaVentaDAO" ref="notaVentaDAO" />
+    	<beans:property name="dao" ref="notaVentaDAO" />
     	<beans:property name="daoAlmacen" ref="productoAlmacenadoDAO" />
     </beans:bean>
     <beans:bean id="marcaService" class="com.juanjo.service.MarcaServiceImpl">

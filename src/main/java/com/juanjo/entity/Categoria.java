@@ -1,5 +1,6 @@
 package com.juanjo.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="categoria")
-public class Categoria {
+public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	/*For Use with PostgreSQL
@@ -21,8 +22,10 @@ public class Categoria {
 	@SequenceGenerator(name="categoria_seq", sequenceName="categoria_id_seq")
 	*/
 	private long id = 0;
+	
 	@Column(name="nombre")
 	private String nombre = null;
+	
 	@OneToMany(mappedBy="categoria")
 	private Set<Producto> productos;
 	

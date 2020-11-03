@@ -11,14 +11,14 @@
     <title>Tienda 1.0</title>
 
     <!-- Bootstrap -->
-    <link href="resources/css/bootstrap.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <!-- <link href="resources/datatables/media/css/jquery.dataTables.css" rel="stylesheet"> -->
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/datatables/media/js/jquery.dataTables.min.js"></script>
     
     <script>
 $(document).ready(function(){
@@ -108,7 +108,7 @@ $(document).ready(function(){
   			<c:forEach items="${detalleVenta}" var="item">
                     <tr>
                     	<td id='rowNum' class='col-md-1'>${item.rowNum}</td>
-                    	<td id='cantidad' class='col-md-1'><input id='cantidadInput' path='item.cantidadVenta' value="${item.cantidad}"/></td>
+                    	<td id='cantidad' class='col-md-1'><input id='cantidadInput' path='item.unidades' value="${item.unidades}"/></td>
                         <td class='col-md-4'>${item.productoVenta.producto.descripcion}</td>
                         <td class='col-md-2'>${item.productoVenta.precioVenta}</td>
                         <td id='totalLinea' class='col-md-2'>${item.totalLinea}</td>

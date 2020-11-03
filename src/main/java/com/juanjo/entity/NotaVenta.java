@@ -23,24 +23,25 @@ public class NotaVenta implements Serializable{
 
 	private static final long serialVersionUID = 7993089341801405296L;
 	
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+/*	@Id
 	@GeneratedValue(generator="nota_seq")
-	@SequenceGenerator(name="nota_seq", sequenceName="nota_id_seq")
+	@SequenceGenerator(name="nota_seq", sequenceName="nota_id_seq")*/
 	private Long id;
+	
 	@Column(name = "fecha_hora")
 	private String fechaHora;
-	@Column(name = "folio")
-	private String folio;
+	
 	@Column(name = "monto_total")
 	private Double montoTotal;
-	@OneToMany(cascade = {CascadeType.ALL})
-	@JoinColumn(name="id_detalle")
-	private List<DetalleVenta> detalleVenta;
-	@Column(name = "status")
-	private Integer status;
 	
+	@Column(name = "total_articulos")
+	private Double totalArticulos;
+	
+	@OneToMany(mappedBy = "notaVenta", cascade = {CascadeType.ALL})
+	//@JoinColumn(name="id_detalle")
+	private List<DetalleVenta> detalleVenta;
 	
 	public Long getId() {
 		return id;
@@ -53,12 +54,6 @@ public class NotaVenta implements Serializable{
 	}
 	public void setFechaHora(String fechaHora) {
 		this.fechaHora = fechaHora;
-	}
-	public String getFolio() {
-		return folio;
-	}
-	public void setFolio(String folio) {
-		this.folio = folio;
 	}
 	public Double getMontoTotal() {
 		return montoTotal;
@@ -73,17 +68,11 @@ public class NotaVenta implements Serializable{
 	public void setDetalleVenta(List<DetalleVenta> detalleVenta) {
 		this.detalleVenta = detalleVenta;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
 	
 	@Override
 	public String toString() {
-		return "NotaVenta [id=" + id + ", fechaHora=" + fechaHora + ", folio=" + folio + ", montoTotal=" + montoTotal
-				+ ", detalleVenta=" + detalleVenta + ", status=" + status + "]";
+		return "NotaVenta [id=" + id + ", fechaHora=" + fechaHora +", montoTotal=" + montoTotal
+				+ ", detalleVenta=" + detalleVenta + "]";
 	}
 
 }

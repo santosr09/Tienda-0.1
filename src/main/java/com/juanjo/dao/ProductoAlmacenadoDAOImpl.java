@@ -9,8 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.juanjo.entity.ProductoAlmacenado;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 
+@Repository
+@Transactional
 public class ProductoAlmacenadoDAOImpl implements ProductoAlmacenadoDAO {
 	
 	private static final Logger log = LoggerFactory.getLogger(ProductoAlmacenadoDAOImpl.class);

@@ -3,6 +3,7 @@ package com.juanjo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.juanjo.utils.DateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import com.juanjo.service.NotaVentaService;
 import com.juanjo.service.ProductoService;
 
 @Controller
-@SessionAttributes("notaView")
+@SessionAttributes("nota")
 public class NotaVentaController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotaVentaController.class);
@@ -30,10 +31,9 @@ public class NotaVentaController {
 	private NotaVentaService notaVentaService;
 	
 	private List<ProductoView> productos = new ArrayList<ProductoView>();
-	private List<DetalleVenta> listadoVenta = new ArrayList<DetalleVenta>();
+	//private List<DetalleVenta> listadoVenta = new ArrayList<DetalleVenta>();
 	private Double totalAcumulado = new Double(0.0);
 	
-
 	@Autowired(required = true)
 	@Qualifier(value = "productoService")
 	public void setProductoService(ProductoService productoService) {
@@ -51,12 +51,26 @@ public class NotaVentaController {
 		NotaVenta nota = new NotaVenta();
 		nota.setMontoTotal(totalAcumulado);
 		LOGGER.debug("## /ventas/ ## nota: "+ nota);
-		nota.setDetalleVenta(listadoVenta);
+		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
 		model.addAttribute("nota", nota);
 		model.addAttribute("producto", new ProductoAlmacenado());
 		model.addAttribute("detalleVenta", nota.getDetalleVenta());
 		model.addAttribute("productos", productos);
-
+		notaVentaService.crearNota(nota);
+		return "NotaVenta";
+	}
+	
+	@GetMapping(value = "/ventas/update")
+	public String actualizaNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
+		nota.setMontoTotal(totalAcumulado);
+		LOGGER.debug("## /ventas/ ## nota: "+ nota);
+//		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
+/*		model.addAttribute("nota", nota);
+ */
+		model.addAttribute("producto", new ProductoAlmacenado());
+		model.addAttribute("detalleVenta", nota.getDetalleVenta());
+		model.addAttribute("productos", productos);
+		notaVentaService.update(nota);
 		return "NotaVenta";
 	}
 
@@ -68,6 +82,7 @@ public class NotaVentaController {
 
 	@PostMapping(value = "/ventas/search")
 	public String searchPrecio(@ModelAttribute("nota") NotaVenta nota,
+	//public @ResponseBody ResponseEntity<List<DetalleVenta>> searchPrecio(@ModelAttribute("nota") NotaVenta nota,
 			@ModelAttribute("producto") ProductoAlmacenado producto, Model model) {
 
 		String clave = producto.getProducto().getClave();
@@ -75,14 +90,13 @@ public class NotaVentaController {
 			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
 			DetalleVenta detalle = new DetalleVenta();
 			detalle.setNotaVenta(nota);
-			detalle.setCantidad(1.0);
-			detalle.setPrecioVenta(item.getPrecioVenta());
+			detalle.setUnidades(1.0);
 			detalle.setProductoVenta(item);
-			double subTot = detalle.getCantidad() * detalle.getPrecioVenta();
+			double subTot = detalle.getUnidades() * item.getPrecioVenta();
 			detalle.setTotalLinea(subTot);
-			detalle.setRowNum(listadoVenta.size() + 1);
-			listadoVenta.add(0, detalle);
-			nota.setDetalleVenta(listadoVenta);
+			detalle.setRowNum(nota.getDetalleVenta().size() + 1);
+			nota.getDetalleVenta().add(0, detalle);
+			//nota.setDetalleVenta(listadoVenta);
 			totalAcumulado = totalAcumulado + subTot;
 			nota.setMontoTotal(totalAcumulado);
 
@@ -93,7 +107,8 @@ public class NotaVentaController {
 			model.addAttribute("productos", productos);
 		}
 
-		return "redirect:/ventas";
+		return "redirect:/ventas/update";
+		//return new ResponseEntity<List<DetalleVenta>>(nota.getDetalleVenta(), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/ventas/updateQty")
@@ -103,31 +118,31 @@ public class NotaVentaController {
 		LOGGER.debug("##/ventas/updateQty ## nota.toString: "+ nota);
 		Double cantNva = new Double(cantidadNueva);
 		int indice = new Integer(row) - 1;
-		DetalleVenta detalle = listadoVenta.get(indice);
-		detalle.setCantidad(cantNva);
-		double subTot = detalle.getPrecioVenta() * cantNva;
+		DetalleVenta detalle = nota.getDetalleVenta().get(indice);
+		detalle.setUnidades(cantNva);
+		double subTot = detalle.getProductoVenta().getPrecioVenta() * cantNva;
 		detalle.setTotalLinea(subTot);
 		System.out.println("double TotalLinea: " + subTot);
-		listadoVenta.set(indice, detalle);
+		nota.getDetalleVenta().set(indice, detalle);
 		
 		totalAcumulado = totalAcumulado + subTot;
 		nota.setMontoTotal(totalAcumulado);
 		model.addAttribute("nota", nota);
-		return new ResponseEntity<List<DetalleVenta>>(listadoVenta, HttpStatus.OK);
+		return new ResponseEntity<List<DetalleVenta>>(nota.getDetalleVenta(), HttpStatus.OK);
 
 	}
 
 	@PostMapping(value = "/ventas/cobrar")
 	public String cobrarNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
+		notaVentaService.vender(nota);
 		NotaVenta notaNueva = new NotaVenta();
-		listadoVenta.clear();
+//		listadoVenta.clear();
 		totalAcumulado = 0.0;
-		notaNueva.setDetalleVenta(listadoVenta);
+		notaNueva.setDetalleVenta(new ArrayList<DetalleVenta>());
 		model.addAttribute("nota", notaNueva);
 		model.addAttribute("producto", new ProductoAlmacenado());
 		model.addAttribute("detalleVenta", notaNueva.getDetalleVenta());
 		model.addAttribute("productos", productos);
-
 		return "redirect:/ventas";
 	}
 

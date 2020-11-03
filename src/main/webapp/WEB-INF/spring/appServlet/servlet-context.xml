@@ -42,6 +42,10 @@
         <beans:property name="dataSource" ref="dataSource" />
         <beans:property name="annotatedClasses">
             <beans:list>
+                <beans:value>com.juanjo.entity.NotaCompra</beans:value>
+                <beans:value>com.juanjo.entity.DetalleCompra</beans:value>
+                <beans:value>com.juanjo.entity.Presentacion</beans:value>
+                <beans:value>com.juanjo.entity.Proveedor</beans:value>
                 <beans:value>com.juanjo.entity.Categoria</beans:value>
                 <beans:value>com.juanjo.entity.Producto</beans:value>
                 <beans:value>com.juanjo.entity.ProductoAlmacenado</beans:value>
@@ -59,6 +63,15 @@
     </beans:bean>
     
      <!-- DAO'S -->
+    <beans:bean id="NotaCompraDAO" class="com.juanjo.dao.NotaCompraDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="presentacionDAO" class="com.juanjo.dao.PresentacionDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
+    <beans:bean id="proveedorDAO" class="com.juanjo.dao.ProveedorDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
     <beans:bean id="categoriaDAO" class="com.juanjo.dao.CategoriaDAOImpl">
         <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </beans:bean>

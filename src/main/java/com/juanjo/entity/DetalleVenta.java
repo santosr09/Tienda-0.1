@@ -16,71 +16,82 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="detalle_venta")
-public class DetalleVenta implements Serializable{
+public class DetalleVenta implements Serializable {
 
 	private static final long serialVersionUID = 6509739476145987181L;
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
+	/*@Id
+	@GeneratedValue(generator="nota_detalle_seq")
+	@SequenceGenerator(name="nota_detalle_seq", sequenceName="nota_detalle_id_seq")*/
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name="id_nota_venta")
+	private NotaVenta notaVenta;
+	
+	@Column(name="row_num")
 	private int rowNum;
+	
+	@Column(name="total_linea")
 	private Double totalLinea;
 	
-	@Id
-	@GeneratedValue(generator="nota_detalle_seq")
-	@SequenceGenerator(name="nota_detalle_seq", sequenceName="nota_detalle_id_seq")
-	private Long id;
-	@ManyToOne
-	@JoinColumn(name="id_nota")
-	private NotaVenta notaVenta;
 	@OneToOne
 	@JoinColumn(name="id_producto")
 	private ProductoAlmacenado productoVenta;
-	@Column(name="cantidad")
-	private Double cantidad;
-	@Column(name="precio_venta")
-	private Double precioVenta;
+	@Column(name="unidades")
+	private Double unidades;
+	
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+	
+	public int getRowNum() {
+		return rowNum;
+	}
+	
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+	
+	public Double getTotalLinea() {
+		return totalLinea;
+	}
+	
+	public void setTotalLinea(Double totalLinea) {
+		this.totalLinea = totalLinea;
+	}
 	
 	public Long getId() {
 		return id;
 	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public NotaVenta getNotaVenta() {
 		return notaVenta;
 	}
+	
 	public void setNotaVenta(NotaVenta notaVenta) {
 		this.notaVenta = notaVenta;
 	}
+	
 	public ProductoAlmacenado getProductoVenta() {
 		return productoVenta;
 	}
+	
 	public void setProductoVenta(ProductoAlmacenado productoVenta) {
 		this.productoVenta = productoVenta;
 	}
-	public Double getCantidad() {
-		return cantidad;
+	
+	public Double getUnidades() {
+		return unidades;
 	}
-	public void setCantidad(Double cantidad) {
-		this.cantidad = cantidad;
+	
+	public void setUnidades(Double unidades) {
+		this.unidades = unidades;
 	}
-	public Double getPrecioVenta() {
-		return precioVenta;
-	}
-	public void setPrecioVenta(Double precioVenta) {
-		this.precioVenta = precioVenta;
-	}
-	public int getRowNum() {
-		return rowNum;
-	}
-	public void setRowNum(int rowNum) {
-		this.rowNum = rowNum;
-	}
-	public Double getTotalLinea() {
-		return totalLinea;
-	}
-	public void setTotalLinea(Double totalLinea) {
-		this.totalLinea = totalLinea;
-	}
-
 }

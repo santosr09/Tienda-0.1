@@ -3,7 +3,6 @@ package com.juanjo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.juanjo.utils.DateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ public class NotaVentaController {
 	private NotaVentaService notaVentaService;
 	
 	private List<ProductoView> productos = new ArrayList<ProductoView>();
-	//private List<DetalleVenta> listadoVenta = new ArrayList<DetalleVenta>();
 	private Double totalAcumulado = new Double(0.0);
 	
 	@Autowired(required = true)
@@ -64,9 +62,6 @@ public class NotaVentaController {
 	public String actualizaNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
 		nota.setMontoTotal(totalAcumulado);
 		LOGGER.debug("## /ventas/ ## nota: "+ nota);
-//		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
-/*		model.addAttribute("nota", nota);
- */
 		model.addAttribute("producto", new ProductoAlmacenado());
 		model.addAttribute("detalleVenta", nota.getDetalleVenta());
 		model.addAttribute("productos", productos);
@@ -82,24 +77,13 @@ public class NotaVentaController {
 
 	@PostMapping(value = "/ventas/search")
 	public String searchPrecio(@ModelAttribute("nota") NotaVenta nota,
-	//public @ResponseBody ResponseEntity<List<DetalleVenta>> searchPrecio(@ModelAttribute("nota") NotaVenta nota,
 			@ModelAttribute("producto") ProductoAlmacenado producto, Model model) {
 
 		String clave = producto.getProducto().getClave();
 		if (clave != null && !(clave.trim().isEmpty())) {
 			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
-			DetalleVenta detalle = new DetalleVenta();
-			detalle.setNotaVenta(nota);
-			detalle.setUnidades(1.0);
-			detalle.setProductoVenta(item);
-			double subTot = detalle.getUnidades() * item.getPrecioVenta();
-			detalle.setTotalLinea(subTot);
-			detalle.setRowNum(nota.getDetalleVenta().size() + 1);
-			nota.getDetalleVenta().add(0, detalle);
-			//nota.setDetalleVenta(listadoVenta);
-			totalAcumulado = totalAcumulado + subTot;
-			nota.setMontoTotal(totalAcumulado);
-
+			nota = notaVentaService.agregarProductoaNota(nota, item);
+			
 			LOGGER.info("## /ventas/search ## nota.toString: "+ nota);
 			model.addAttribute("nota", nota);
 
@@ -108,7 +92,6 @@ public class NotaVentaController {
 		}
 
 		return "redirect:/ventas/update";
-		//return new ResponseEntity<List<DetalleVenta>>(nota.getDetalleVenta(), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/ventas/updateQty")
@@ -122,7 +105,6 @@ public class NotaVentaController {
 		detalle.setUnidades(cantNva);
 		double subTot = detalle.getProductoVenta().getPrecioVenta() * cantNva;
 		detalle.setTotalLinea(subTot);
-		System.out.println("double TotalLinea: " + subTot);
 		nota.getDetalleVenta().set(indice, detalle);
 		
 		totalAcumulado = totalAcumulado + subTot;
@@ -136,7 +118,6 @@ public class NotaVentaController {
 	public String cobrarNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
 		notaVentaService.vender(nota);
 		NotaVenta notaNueva = new NotaVenta();
-//		listadoVenta.clear();
 		totalAcumulado = 0.0;
 		notaNueva.setDetalleVenta(new ArrayList<DetalleVenta>());
 		model.addAttribute("nota", notaNueva);

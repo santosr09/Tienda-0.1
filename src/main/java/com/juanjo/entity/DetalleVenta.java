@@ -20,9 +20,6 @@ public class DetalleVenta implements Serializable {
 
 	private static final long serialVersionUID = 6509739476145987181L;
 	
-	/*@Id
-	@GeneratedValue(generator="nota_detalle_seq")
-	@SequenceGenerator(name="nota_detalle_seq", sequenceName="nota_detalle_id_seq")*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;

@@ -2,6 +2,7 @@ package com.juanjo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name="nota_compra")
@@ -9,11 +10,8 @@ public class NotaCompra implements Serializable {
 
 	private static final long serialVersionUID = 7993089341801405296L;
 	
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	@GeneratedValue(generator="nota_compra_seq")
-	@SequenceGenerator(name="nota_compra_seq", sequenceName="nota_compra_id_seq")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
@@ -34,6 +32,9 @@ public class NotaCompra implements Serializable {
 	
 	@Column(name = "status")
 	private Integer status;
+	
+	@OneToMany(mappedBy = "notaCompra",  cascade = {CascadeType.ALL})
+	private List<DetalleCompra> detalleCompraList;
 	
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
@@ -93,5 +94,13 @@ public class NotaCompra implements Serializable {
 	
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	
+	public List<DetalleCompra> getDetalleCompraList() {
+		return detalleCompraList;
+	}
+	
+	public void setDetalleCompraList(List<DetalleCompra> detalleCompraList) {
+		this.detalleCompraList = detalleCompraList;
 	}
 }

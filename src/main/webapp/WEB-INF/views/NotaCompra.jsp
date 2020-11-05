@@ -7,7 +7,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Tienda 1.0</title>
 
     <!-- Bootstrap -->
@@ -34,7 +33,7 @@ $(document).ready(function(){
 		  //var cantInputVal = $(this).find("#cantidadInput").val();
 		  //alert('cantInputVal: '+cantInputVal);
 	    	console.log('RowNum: '+ row);
-	    	$.post("/Tienda/ventas/updateQty", { rowNum: row, cantidadInput: cantidad })
+	    	$.post("/Tienda/compras/updateQty", { rowNum: row, cantidadInput: cantidad })
 	            	.done(function(data, status){
 	                	//var htmlCantidad = "<input id='cantidadInput' path='item.cantidadVenta' value="+data[row-1].cantidad+"/>";
 	                	//var htmlCantidad = data[row-1].cantidad;
@@ -74,10 +73,10 @@ $(document).ready(function(){
 	
 	<div class="panel panel-default">
   	
-  	<div class="panel-heading"><h3>Nota de Venta:  <p:spinner />   ${nota.id} </h3></div>
+  	<div class="panel-heading"><h3>Nota de COMPRA:  <p:spinner />   ${nota.id} </h3></div>
   	
   	<div class="panel-body">
-  	<c:url var="searchAction" value="/ventas/search" ></c:url>
+  	<c:url var="searchAction" value="/compras/search" ></c:url>
     	<form:form action="${searchAction}" commandName="producto" id="search-form" role = "form">
 		
 		<form:label path="producto.clave">
@@ -92,7 +91,7 @@ $(document).ready(function(){
 
   	<!-- Table -->
   	<table  class="table table-fixed" id="notaTable">
-  	<c:url var="cobrarAction" value="/ventas/cobrar" ></c:url>
+  	<c:url var="cobrarAction" value="/compras/cobrar" ></c:url>
   	<form:form action="${cobrarAction}" commandName="nota" id="nota-form" role = "form">
   		<thead>
   			<tr>
@@ -105,7 +104,7 @@ $(document).ready(function(){
   		</thead>
   			
   		<tbody>
-  			<c:forEach items="${detalleVenta}" var="item">
+  			<c:forEach items="${detalleCompra}" var="item">
                     <tr>
                     	<td id='rowNum' class='col-md-1'>${item.rowNum}</td>
                     	<td id='cantidad' class='col-md-1'><input id='cantidadInput' path='item.unidades' value="${item.unidades}"/></td>
@@ -127,7 +126,7 @@ $(document).ready(function(){
 			</td>
 		</tr>
   		</tfoot>
-  		<!-- onclick="form.action='ventas/cobrar';" -->
+  		<!-- onclick="form.action='compras/cobrar';" -->
   		
   	</form:form>
 	</table>

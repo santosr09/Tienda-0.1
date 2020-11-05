@@ -10,4 +10,5 @@ public interface NotaCompraDAO {
 	public NotaCompra getNotaCompra(long id);
 	public void comprar(NotaCompra nota);
 	public void devolver(NotaCompra nota);
+	public void update(NotaCompra nota);
 }

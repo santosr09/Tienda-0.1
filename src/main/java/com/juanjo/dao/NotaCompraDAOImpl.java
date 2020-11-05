@@ -6,11 +6,12 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
 
 public class NotaCompraDAOImpl implements NotaCompraDAO {
 	
-	private static final Logger log = LoggerFactory.getLogger(NotaCompraDAOImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotaCompraDAOImpl.class);
 	
 	private SessionFactory sessionFactory;
 	
@@ -18,30 +19,42 @@ public class NotaCompraDAOImpl implements NotaCompraDAO {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	@Transactional
 	@Override
 	public Serializable crearNotaCompra(NotaCompra nota) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Serializable serial = session.save(nota);
-		log.info("NotaCompra creada exitosamente, serial: {}", serial);
-		System.out.println("NotaCompra creada exitosamente, serial: {}"+ serial);
+		LOGGER.info("NotaCompra creada exitosamente, serial: {}", serial);
 		return serial;
 	}
 	
+	@Transactional
 	@Override
 	public NotaCompra getNotaCompra(long id) {
 		Session session = this.sessionFactory.getCurrentSession();
 		NotaCompra nota = (NotaCompra)session.get(NotaCompra.class, id);
-		log.info("Nota encontrada: {}", nota);
+		LOGGER.info("Nota encontrada: {}", nota);
 		return nota;
 	}
 	
+	@Transactional
 	@Override
 	public void comprar(NotaCompra nota) {
-	
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(nota);
+		LOGGER.info("nota Actualizada correctamente, nota: {}", nota);
 	}
 	
 	@Override
 	public void devolver(NotaCompra nota) {
 	
+	}
+	
+	@Transactional
+	@Override
+	public void update(NotaCompra nota) {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(nota);
+		LOGGER.info("nota Actualizada correctamente, nota: {}", nota);
 	}
 }

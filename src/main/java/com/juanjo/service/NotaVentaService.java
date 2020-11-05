@@ -1,11 +1,11 @@
 package com.juanjo.service;
 
 import com.juanjo.entity.NotaVenta;
-import com.juanjo.entity.Producto;
+import com.juanjo.entity.ProductoAlmacenado;
 
 public interface NotaVentaService {
 	public void crearNota(NotaVenta nota);
-	public void agregarProductoaNota(Producto item);
+	public NotaVenta agregarProductoaNota(NotaVenta nota, ProductoAlmacenado item);
 	public void update(NotaVenta nota);
 	
 	public void vender(NotaVenta nota);

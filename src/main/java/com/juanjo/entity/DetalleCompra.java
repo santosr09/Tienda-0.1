@@ -15,6 +15,9 @@ public class DetalleCompra implements Serializable {
 	@JoinColumn(name="id_nota_compra")
 	private NotaCompra notaCompra;
 	
+	@Column(name="row_num")
+	private int rowNum;
+	
 	@Column(name="id_producto")
 	private ProductoAlmacenado productoAlmacenado;
 	
@@ -36,6 +39,14 @@ public class DetalleCompra implements Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public int getRowNum() {
+		return rowNum;
+	}
+	
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
 	}
 	
 	public NotaCompra getNotaCompra() {

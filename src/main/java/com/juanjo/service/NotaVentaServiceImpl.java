@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.juanjo.entity.DetalleVenta;
+import com.juanjo.entity.ProductoAlmacenado;
 import com.juanjo.utils.DateManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,16 +22,17 @@ import com.juanjo.entity.view.ProductoView;
 @Service
 public class NotaVentaServiceImpl implements NotaVentaService {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotaVentaServiceImpl.class);
+	
 	private NotaVentaDAO dao;
 	private ProductoAlmacenadoDAO daoAlmacen;
-	private List<Producto> listado;
 	
 	private long idNota;
 	
 	public void crearNota(NotaVenta nota){
 		nota.setFechaHora(DateManager.getCurrentDateTime());
 		Serializable serial = dao.crearNotaVenta(nota);
-		System.out.println("NotaVenta creada exitosamente, serial: {}"+ serial);
+		LOGGER.debug("NotaVenta creada exitosamente, serial: {}"+ serial);
 	}
 	
 	public NotaVenta getNotaVenta(long id){
@@ -53,9 +58,21 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	}
 
 	@Override
-	public void agregarProductoaNota(Producto item) {
-		listado.add(item);
-		
+	public NotaVenta agregarProductoaNota(NotaVenta nota, ProductoAlmacenado producto) {
+		LOGGER.debug("agergarProductoaNota(), producto:" + producto);
+		double totalAcumulado = 0.0;
+		DetalleVenta detalle = new DetalleVenta();
+		detalle.setNotaVenta(nota);
+		detalle.setUnidades(1.0);
+		detalle.setProductoVenta(producto);
+		double subTot = detalle.getUnidades() * producto.getPrecioVenta();
+		detalle.setTotalLinea(subTot);
+		detalle.setRowNum(nota.getDetalleVenta().size() + 1);
+		nota.getDetalleVenta().add(0, detalle);
+		totalAcumulado = totalAcumulado + subTot;
+		nota.setMontoTotal(totalAcumulado);
+		dao.update(nota);
+		return nota;
 	}
 	
 	@Override

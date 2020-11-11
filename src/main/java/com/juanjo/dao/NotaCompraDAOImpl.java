@@ -5,10 +5,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.io.Serializable;
 
+@Repository
 public class NotaCompraDAOImpl implements NotaCompraDAO {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotaCompraDAOImpl.class);

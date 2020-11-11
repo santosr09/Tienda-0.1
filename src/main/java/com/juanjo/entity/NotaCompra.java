@@ -30,11 +30,8 @@ public class NotaCompra implements Serializable {
 	@Column(name = "monto_total")
 	private Double montoTotal;
 	
-	@Column(name = "status")
-	private Integer status;
-	
 	@OneToMany(mappedBy = "notaCompra",  cascade = {CascadeType.ALL})
-	private List<DetalleCompra> detalleCompraList;
+	private List<DetalleCompra> detalleCompra;
 	
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
@@ -88,19 +85,11 @@ public class NotaCompra implements Serializable {
 		this.montoTotal = montoTotal;
 	}
 	
-	public Integer getStatus() {
-		return status;
+	public List<DetalleCompra> getDetalleCompra() {
+		return detalleCompra;
 	}
 	
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	public List<DetalleCompra> getDetalleCompraList() {
-		return detalleCompraList;
-	}
-	
-	public void setDetalleCompraList(List<DetalleCompra> detalleCompraList) {
-		this.detalleCompraList = detalleCompraList;
+	public void setDetalleCompra(List<DetalleCompra> detalleCompraList) {
+		this.detalleCompra = detalleCompraList;
 	}
 }

@@ -84,6 +84,9 @@
     <beans:bean id="notaVentaDAO" class="com.juanjo.dao.NotaVentaDAOImpl">
     	<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </beans:bean>
+    <beans:bean id="notaCompraDAO" class="com.juanjo.dao.NotaCompraDAOImpl">
+        <beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </beans:bean>
     <beans:bean id="marcaDAO" class="com.juanjo.dao.MarcaDAOImpl">
     	<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </beans:bean>
@@ -97,8 +100,12 @@
         <beans:property name="daoAlmacen" ref="productoAlmacenadoDAO"></beans:property>
     </beans:bean>
     <beans:bean id="notaVentaService" class="com.juanjo.service.NotaVentaServiceImpl">
-    	<beans:property name="dao" ref="notaVentaDAO" />
+    	<beans:property name="daoNota" ref="notaVentaDAO" />
     	<beans:property name="daoAlmacen" ref="productoAlmacenadoDAO" />
+    </beans:bean>
+    <beans:bean id="notaCompraService" class="com.juanjo.service.NotaCompraServiceImpl">
+        <beans:property name="daoNota" ref="notaCompraDAO" />
+        <beans:property name="daoAlmacen" ref="productoAlmacenadoDAO" />
     </beans:bean>
     <beans:bean id="marcaService" class="com.juanjo.service.MarcaServiceImpl">
     	<beans:property name="dao" ref="marcaDAO" />

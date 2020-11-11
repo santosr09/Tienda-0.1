@@ -15,13 +15,12 @@ public class DetalleCompra implements Serializable {
 	@JoinColumn(name="id_nota_compra")
 	private NotaCompra notaCompra;
 	
-	@Column(name="row_num")
-	private int rowNum;
-	
-	@Column(name="id_producto")
+	@OneToOne
+	@JoinColumn(name="id_producto")
 	private ProductoAlmacenado productoAlmacenado;
 	
-	@Column(name="id_presentacion_compra")
+	@OneToOne
+	@JoinColumn(name="id_presentacion_compra")
 	private Presentacion presentacionCompra;
 	
 	@Column(name="unidades")
@@ -32,6 +31,9 @@ public class DetalleCompra implements Serializable {
 	
 	@Column(name="iva")
 	private Double iva;
+	
+	@Column(name="row_num")
+	private int rowNum;
 	
 	public Long getId() {
 		return id;

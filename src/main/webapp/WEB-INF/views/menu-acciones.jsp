@@ -6,7 +6,7 @@
 <div class = "btn-group-vertical">
     	
     	<a type="button" class="btn btn-default" href="ventas"><h4>Ventas</h4></a>
-    	<button type="button" class="btn btn-default"><h4>Compra</h4></button>
+    	<a type="button" class="btn btn-default" href="compras"><h4>Compras</h4></a>
     	<button type="button" class="btn btn-default"><h4>Inventario</h4></button>
   		<button type="button" class="btn btn-default"><h4>Productos</h4></button>
 <%--   		<button type="button" class="btn btn-default" href="location.href='${precioUrl}'"><h4>Precios</h4></button> --%>

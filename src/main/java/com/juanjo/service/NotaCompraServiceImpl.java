@@ -3,6 +3,7 @@ package com.juanjo.service;
 import com.juanjo.dao.NotaCompraDAO;
 import com.juanjo.dao.ProductoAlmacenadoDAO;
 import com.juanjo.entity.DetalleCompra;
+import com.juanjo.entity.DetalleVenta;
 import com.juanjo.entity.NotaCompra;
 import com.juanjo.entity.ProductoAlmacenado;
 import com.juanjo.utils.DateManager;
@@ -26,8 +27,21 @@ public class NotaCompraServiceImpl implements NotaCompraService{
 	}
 	
 	@Override
-	public NotaCompra agregarProductoaNota(NotaCompra nota, ProductoAlmacenado item) {
-	   return nota;
+	public NotaCompra agregarProductoaNota(NotaCompra nota, ProductoAlmacenado producto) {
+		LOGGER.debug("agergarProductoaNota(), producto:" + producto);
+		double totalAcumulado = 0.0;
+		DetalleCompra detalle = new DetalleCompra();
+		detalle.setNotaCompra(nota);
+		detalle.setUnidades(1.0);
+		detalle.setProductoAlmacenado(producto);
+		double subTot = detalle.getUnidades() * producto.getPrecioCompraUltimo();
+		detalle.setMontoTotal(subTot);
+		detalle.setRowNum(nota.getDetalleCompra().size() + 1);
+		nota.getDetalleCompra().add(0, detalle);
+		totalAcumulado = totalAcumulado + subTot;
+		nota.setMontoTotal(totalAcumulado);
+		daoNota.update(nota);
+		return nota;
 	}
 	
 	@Override
@@ -42,8 +56,11 @@ public class NotaCompraServiceImpl implements NotaCompraService{
 	
 	@Override
 	public void comprar(NotaCompra nota) {
-		for (DetalleCompra detalle: nota.getDetalleCompraList()){
-					daoAlmacen.addProducto(detalle.getProductoAlmacenado());
+		for (DetalleCompra detalle: nota.getDetalleCompra()){
+			double cantidad = detalle.getUnidades() + detalle.getProductoAlmacenado().getExistencia();
+			ProductoAlmacenado item = detalle.getProductoAlmacenado();
+			item.setExistencia(cantidad);
+			daoAlmacen.addProducto(item);
 		}
 		daoNota.comprar(nota);
 	}

@@ -73,7 +73,7 @@ $(document).ready(function(){
 	
 	<div class="panel panel-default">
   	
-  	<div class="panel-heading"><h3>Nota de COMPRA:  <p:spinner />   ${nota.id} </h3></div>
+  	<div class="panel-heading"><h3>Nota de COMPRA:  <p:spinner />   ${notaCompra.id} </h3></div>
   	
   	<div class="panel-body">
   	<c:url var="searchAction" value="/compras/search" ></c:url>
@@ -108,9 +108,9 @@ $(document).ready(function(){
                     <tr>
                     	<td id='rowNum' class='col-md-1'>${item.rowNum}</td>
                     	<td id='cantidad' class='col-md-1'><input id='cantidadInput' path='item.unidades' value="${item.unidades}"/></td>
-                        <td class='col-md-4'>${item.productoVenta.producto.descripcion}</td>
-                        <td class='col-md-2'>${item.productoVenta.precioVenta}</td>
-                        <td id='totalLinea' class='col-md-2'>${item.totalLinea}</td>
+                        <td class='col-md-4'>${item.productoAlmacenado.producto.descripcion}</td>
+                        <td class='col-md-2'><input id='precioInput' path='item.productoAlmacenado.precioCompraUltimo' value="${item.productoAlmacenado.precioCompraUltimo}"/></td>
+                        <td id='totalLinea' class='col-md-2'>${item.montoTotal}</td>
                     </tr>
                 </c:forEach>
   		

@@ -33,10 +33,9 @@ public class ProductoView {
 		this.min = producto.getMin();
 		this.existencia = producto.getExistencia();
 		this.precioVenta = producto.getPrecioVenta();
-		//this.precioCompra = producto.getPrecioCompraPromedio();
 		this.precioCompra = producto.getPrecioCompraUltimo();
-		this.presentacionVenta = producto.getPresentacionVenta();
-		this.presentacionCompra = producto.getPresentacionCompra();
+		this.presentacionVenta = producto.getPresentacionVenta().getNombre();
+		this.presentacionCompra = producto.getPresentacionCompra().getNombre();
 	}
 	
 	//Constructor Default

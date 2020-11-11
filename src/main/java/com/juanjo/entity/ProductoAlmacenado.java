@@ -2,14 +2,7 @@ package com.juanjo.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="producto_almacen")
@@ -19,31 +12,45 @@ public class ProductoAlmacenado implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	@OneToOne
 	@JoinColumn(name="id_producto")
 	private Producto producto;
+	
 	@Column(name = "existencia_maxima")
 	private Double max;
+	
 	@Column(name = "existencia_minima")
 	private Double min;
+	
 	@Column(name = "existencia_virtual")
 	private Double existenciaVirtual;
+	
 	@Column(name = "existencia")
 	private Double existencia;
+	
 	@Column(name = "precio_compra_ultimo")
 	private Double precioCompraUltimo;
+	
 	@Column(name = "precio_compra_promedio")
 	private Double precioCompraPromedio;
+	
 	@Column(name = "precio_venta_minimo")
 	private Double precioVentaMinimo;
+	
 	@Column(name = "precio_venta_calculado")
 	private Double precioVentaCalculado;
+	
 	@Column(name = "precio_venta")
 	private Double precioVenta;
-	@Column(name = "id_presentacion_venta")
-	private String presentacionVenta;
-	@Column(name = "id_presentacion_compra")
-	private String presentacionCompra;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_presentacion_venta", referencedColumnName = "id")
+	private Presentacion presentacionVenta;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_presentacion_compra", referencedColumnName = "id")
+	private Presentacion presentacionCompra;
 	
 	public Long getId() {
 		return id;
@@ -133,19 +140,19 @@ public class ProductoAlmacenado implements Serializable{
 		this.precioVenta = precioVenta;
 	}
 	
-	public String getPresentacionVenta() {
+	public Presentacion getPresentacionVenta() {
 		return presentacionVenta;
 	}
 	
-	public void setPresentacionVenta(String presentacionVenta) {
+	public void setPresentacionVenta(Presentacion presentacionVenta) {
 		this.presentacionVenta = presentacionVenta;
 	}
 	
-	public String getPresentacionCompra() {
+	public Presentacion getPresentacionCompra() {
 		return presentacionCompra;
 	}
 	
-	public void setPresentacionCompra(String presentacionCompra) {
+	public void setPresentacionCompra(Presentacion presentacionCompra) {
 		this.presentacionCompra = presentacionCompra;
 	}
 	

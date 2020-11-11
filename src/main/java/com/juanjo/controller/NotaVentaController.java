@@ -30,7 +30,7 @@ public class NotaVentaController {
 	private NotaVentaService notaVentaService;
 	
 	private List<ProductoView> productos = new ArrayList<ProductoView>();
-	private Double totalAcumulado = new Double(0.0);
+	private Double totalAcumulado = 0.0;
 	
 	@Autowired(required = true)
 	@Qualifier(value = "productoService")

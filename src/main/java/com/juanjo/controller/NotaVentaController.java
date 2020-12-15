@@ -54,7 +54,7 @@ public class NotaVentaController {
 		model.addAttribute("producto", new ProductoAlmacenado());
 		model.addAttribute("detalleVenta", nota.getDetalleVenta());
 		model.addAttribute("productos", productos);
-		notaVentaService.crearNota(nota);
+		notaVentaService.crearNota();
 		return "NotaVenta";
 	}
 	

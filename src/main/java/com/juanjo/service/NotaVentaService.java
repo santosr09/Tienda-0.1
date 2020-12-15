@@ -4,7 +4,7 @@ import com.juanjo.entity.NotaVenta;
 import com.juanjo.entity.ProductoAlmacenado;
 
 public interface NotaVentaService {
-	public void crearNota(NotaVenta nota);
+	public NotaVenta crearNota();
 	public NotaVenta agregarProductoaNota(NotaVenta nota, ProductoAlmacenado item);
 	public void update(NotaVenta nota);
 	

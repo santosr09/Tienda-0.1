@@ -6,7 +6,7 @@ import com.juanjo.entity.NotaVenta;
 
 public interface NotaVentaDAO {
 	
-	public Serializable crearNotaVenta(NotaVenta nota);
+	public NotaVenta crearNotaVenta(NotaVenta nota);
 	public NotaVenta getNotaVenta(long id);
 	public void vender(NotaVenta nota);
 	public void devolver(NotaVenta nota);

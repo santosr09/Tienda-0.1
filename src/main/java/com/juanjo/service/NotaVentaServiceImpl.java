@@ -22,10 +22,10 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	
 	private long idNota;
 	
-	public void crearNota(NotaVenta nota){
+	public NotaVenta crearNota(){
+		NotaVenta nota = new NotaVenta();
 		nota.setFechaHora(DateManager.getCurrentDateTime());
-		Serializable serial = daoNota.crearNotaVenta(nota);
-		LOGGER.debug("NotaVenta creada exitosamente, serial: {}"+ serial);
+		return daoNota.crearNotaVenta(nota);
 	}
 	
 	public NotaVenta getNotaVenta(long id){

@@ -91,7 +91,7 @@ public class NotaCompraController {
 	}
 	
 	@PostMapping(value = "/compras/updateQty")
-	public @ResponseBody
+	public @ResponseBody																																																																																																																																																																																																																																																																																																																																																																
 	ResponseEntity<List<DetalleCompra>> updateQty(
 			@RequestParam(value = "cantidadInput") String cantidadNueva,
 			@RequestParam(value = "rowNum") String row,

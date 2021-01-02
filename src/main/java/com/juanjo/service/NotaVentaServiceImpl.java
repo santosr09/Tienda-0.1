@@ -1,6 +1,8 @@
 package com.juanjo.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.juanjo.entity.*;
 import com.juanjo.utils.DateManager;
@@ -22,8 +24,9 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	
 	private long idNota;
 	
-	public NotaVenta crearNota(){
+	public NotaVenta crearNota() {
 		NotaVenta nota = new NotaVenta();
+		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
 		nota.setFechaHora(DateManager.getCurrentDateTime());
 		return daoNota.crearNotaVenta(nota);
 	}
@@ -42,7 +45,7 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 		daoNota.vender(nota);
 	}
 	
-	public void devolver(NotaVenta nota) {
+	public void cancelar(NotaVenta nota) {
 		daoNota.devolver(nota);
 	}
 
@@ -57,7 +60,7 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	}
 
 	@Override
-	public NotaVenta agregarProductoaNota(NotaVenta nota, ProductoAlmacenado producto) {
+	public NotaVenta agregarProducto(NotaVenta nota, ProductoAlmacenado producto) {
 		LOGGER.debug("agergarProductoaNota(), producto:" + producto);
 		double totalAcumulado = 0.0;
 		DetalleVenta detalle = new DetalleVenta();
@@ -72,6 +75,37 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 		nota.setMontoTotal(totalAcumulado);
 		daoNota.update(nota);
 		return nota;
+	}
+	
+	@Override
+	public NotaVenta buscaAgregaProducto(NotaVenta nota, String codigo) {
+		LOGGER.debug("buscaAgregaProducto(), codigo:" + codigo);
+		ProductoAlmacenado item =  daoAlmacen.getProductoPorBarcode(codigo);
+		DetalleVenta newDetalle = new DetalleVenta();
+		double totalAcumulado = 0.0;
+		DetalleVenta detalle = new DetalleVenta();
+		detalle.setNotaVenta(nota);
+		detalle.setUnidades(1.0);
+		//detalle.setProductoVenta(producto);
+		double subTot = detalle.getUnidades() * item.getPrecioVenta();
+		detalle.setTotalLinea(subTot);
+		detalle.setRowNum(nota.getDetalleVenta().size() + 1);
+		nota.getDetalleVenta().add(0, detalle);
+		totalAcumulado = totalAcumulado + subTot;
+		nota.setMontoTotal(totalAcumulado);
+		daoNota.update(nota);
+		return nota;
+	}
+	
+	private DetalleVenta creaDetalle(NotaVenta nota, ProductoAlmacenado item){
+		List<DetalleVenta> detalleNota = nota.getDetalleVenta();
+		DetalleVenta detalle = new DetalleVenta();
+		detalle.setNotaVenta(nota);
+		detalle.setProductoVenta(item);
+		detalle.setRowNum(detalleNota.size() + 1);
+		double totalLinea = detalle.getUnidades() * item.getPrecioVenta();
+		detalle.setTotalLinea(totalLinea);
+		return detalle;
 	}
 	
 	@Override

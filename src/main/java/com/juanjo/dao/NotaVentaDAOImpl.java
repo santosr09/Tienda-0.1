@@ -48,8 +48,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(NotaVentaDAOImpl.cl
 		Session session = this.sessionFactory.getCurrentSession();
 		Long id = (Long) session.save(nota);
 		NotaVenta newNota = (NotaVenta) session.get(NotaVenta.class, id);
-		LOGGER.info("NotaVenta creada exitosamente, serial: {}", newNota);
-		System.out.println("NotaVenta creada exitosamente, serial: {}"+ newNota);
+		LOGGER.info("NotaVenta creada: {}", newNota);
 		return newNota;
 	}
 	

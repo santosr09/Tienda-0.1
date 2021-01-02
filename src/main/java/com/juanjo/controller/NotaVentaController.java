@@ -82,7 +82,7 @@ public class NotaVentaController {
 		String clave = producto.getProducto().getClave();
 		if (clave != null && !(clave.trim().isEmpty())) {
 			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
-			nota = notaVentaService.agregarProductoaNota(nota, item);
+			nota = notaVentaService.agregarProducto(nota, item);
 			
 			LOGGER.info("## /ventas/search ## nota.toString: "+ nota);
 			model.addAttribute("nota", nota);

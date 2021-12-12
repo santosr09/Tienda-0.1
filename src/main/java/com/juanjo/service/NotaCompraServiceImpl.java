@@ -3,14 +3,13 @@ package com.juanjo.service;
 import com.juanjo.dao.NotaCompraDAO;
 import com.juanjo.dao.ProductoAlmacenadoDAO;
 import com.juanjo.entity.DetalleCompra;
-import com.juanjo.entity.DetalleVenta;
 import com.juanjo.entity.NotaCompra;
 import com.juanjo.entity.ProductoAlmacenado;
 import com.juanjo.utils.DateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
 public class NotaCompraServiceImpl implements NotaCompraService{
 	
@@ -20,14 +19,15 @@ public class NotaCompraServiceImpl implements NotaCompraService{
 	private ProductoAlmacenadoDAO daoAlmacen;
 	
 	@Override
-	public void crearNota(NotaCompra nota) {
+	public NotaCompra crearNota() {
+		NotaCompra nota = new NotaCompra();
 		nota.setFechaHora(DateManager.getCurrentDateTime());
-		Serializable serial = daoNota.crearNotaCompra(nota);
-		LOGGER.debug("NotaCompra creada exitosamente, serial: {}"+ serial);
+		nota.setDetalleCompra(new ArrayList<DetalleCompra>());
+		return daoNota.crearNotaCompra(nota);
 	}
 	
 	@Override
-	public NotaCompra agregarProductoaNota(NotaCompra nota, ProductoAlmacenado producto) {
+	public NotaCompra agregarProducto(NotaCompra nota, ProductoAlmacenado producto) {
 		LOGGER.debug("agergarProductoaNota(), producto:" + producto);
 		double totalAcumulado = 0.0;
 		DetalleCompra detalle = new DetalleCompra();

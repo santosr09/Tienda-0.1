@@ -5,8 +5,8 @@ import com.juanjo.entity.ProductoAlmacenado;
 
 public interface NotaCompraService {
 	
-	public void crearNota(NotaCompra nota);
-	public NotaCompra agregarProductoaNota(NotaCompra nota, ProductoAlmacenado item);
+	public NotaCompra crearNota();
+	public NotaCompra agregarProducto(NotaCompra nota, ProductoAlmacenado item);
 	public void update(NotaCompra nota);
 	public NotaCompra getNota(String folio);
 	

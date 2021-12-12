@@ -56,11 +56,9 @@ public class ConsultaPreciosController {
 		if(clave!=null && clave.trim().length()>0){
 			ProductoView item = this.productoService.getProductoViewPorBarcode(clave);
 			System.out.println("item encontrado por BarCode "+ item);
-			//return item;
 			return new ResponseEntity<ProductoView>(item, HttpStatus.OK);
 		}
-		
-        return null;
+      return null;
     }
 	
 	@RequestMapping(value = "/ConsultaPrecios", method = RequestMethod.GET)

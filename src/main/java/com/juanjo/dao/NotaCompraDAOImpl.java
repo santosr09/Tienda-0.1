@@ -23,11 +23,11 @@ public class NotaCompraDAOImpl implements NotaCompraDAO {
 	
 	@Transactional
 	@Override
-	public Serializable crearNotaCompra(NotaCompra nota) {
+	public NotaCompra crearNotaCompra(NotaCompra nota) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Serializable serial = session.save(nota);
-		LOGGER.info("NotaCompra creada exitosamente, serial: {}", serial);
-		return serial;
+		Long id = (Long) session.save(nota);
+		LOGGER.info("NotaCompra creada exitosamente, id: {}", id);
+		return this.getNotaCompra(id);
 	}
 	
 	@Transactional

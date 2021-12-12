@@ -4,24 +4,20 @@ package com.juanjo.pos.service;
 import com.juanjo.dao.NotaVentaDAO;
 import com.juanjo.entity.DetalleVenta;
 import com.juanjo.entity.NotaVenta;
-import com.juanjo.entity.Producto;
 import com.juanjo.entity.ProductoAlmacenado;
-import com.juanjo.entity.view.ProductoView;
 import com.juanjo.service.NotaVentaService;
 import com.juanjo.service.NotaVentaServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
-import java.util.List;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class NotaVentaServiceTest {
 	
-	NotaVentaDAO daoMock;
+	NotaVentaDAO notaVentaDao;
 	
 	NotaVentaService service = new NotaVentaServiceImpl();
 	
@@ -30,10 +26,10 @@ public class NotaVentaServiceTest {
 	
 	@BeforeEach
 	private void setUp() {
-		daoMock = mock(NotaVentaDAO.class);
+		notaVentaDao = mock(NotaVentaDAO.class);
 		NotaVenta newNota = new NotaVenta();
 		newNota.setId(1L);
-		when(daoMock.crearNotaVenta(newNota)).thenReturn(newNota);
+		when(notaVentaDao.crearNotaVenta(newNota)).thenReturn(newNota);
 	}
 	
 
@@ -43,11 +39,11 @@ public class NotaVentaServiceTest {
 		
 		NotaVenta newNota = new NotaVenta();
 		newNota.setId(1L);
-		when(daoMock.crearNotaVenta(newNota)).thenReturn(newNota);
+		when(notaVentaDao.crearNotaVenta(newNota)).thenReturn(newNota);
 		
 		NotaVenta nota = new NotaVenta();
 		DetalleVenta detalle = new DetalleVenta();
-		((NotaVentaServiceImpl) service).setDaoNota(daoMock);
+		((NotaVentaServiceImpl) service).setDaoNota(notaVentaDao);
 		NotaVenta notaNew = service.crearNota();
 		
 		

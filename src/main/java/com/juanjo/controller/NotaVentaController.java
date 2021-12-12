@@ -44,22 +44,34 @@ public class NotaVentaController {
 		this.notaVentaService = notaService;
 	}
 
-	@GetMapping(value = "/ventas")
+	@GetMapping(value = "/ventas/crea-nota")
 	public String cargaNota( Model model) {
-		NotaVenta nota = new NotaVenta();
-		nota.setMontoTotal(totalAcumulado);
-		LOGGER.debug("## /ventas/ ## nota: "+ nota);
-		nota.setDetalleVenta(new ArrayList<DetalleVenta>());
-		model.addAttribute("nota", nota);
+		NotaVenta newNota = notaVentaService.crearNota();
+		LOGGER.debug("## /ventas/ ## newNota: "+ newNota);
+		model.addAttribute("nota", newNota);
+		return "redirect:/ventas/"+newNota.getId();
+	}
+	
+	@GetMapping(value = "/ventas/{notaID}")
+	public String _agregarProducto(@ModelAttribute("nota") NotaVenta nota, Model model) {
 		model.addAttribute("producto", new ProductoAlmacenado());
-		model.addAttribute("detalleVenta", nota.getDetalleVenta());
-		model.addAttribute("productos", productos);
-		notaVentaService.crearNota();
 		return "NotaVenta";
 	}
 	
-	@GetMapping(value = "/ventas/update")
+/*	@GetMapping(value = "/ventas/agrega-producto")
 	public String actualizaNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
+		nota.setMontoTotal(totalAcumulado);
+		LOGGER.debug("## /ventas/ ## nota: "+ nota);
+		model.addAttribute("producto", new ProductoAlmacenado());
+		model.addAttribute("detalleVenta", nota.getDetalleVenta());
+		model.addAttribute("productos", productos);
+		notaVentaService.update(nota);
+		return "NotaVenta";
+	}*/
+	
+	
+	@GetMapping(value = "/ventas/update")
+	public String _actualizaNota(@ModelAttribute("nota") NotaVenta nota, Model model) {
 		nota.setMontoTotal(totalAcumulado);
 		LOGGER.debug("## /ventas/ ## nota: "+ nota);
 		model.addAttribute("producto", new ProductoAlmacenado());
@@ -75,10 +87,27 @@ public class NotaVentaController {
 		return "NotaVenta";
 	}
 
-	@PostMapping(value = "/ventas/search")
-	public String searchPrecio(@ModelAttribute("nota") NotaVenta nota,
+	@PostMapping(value = "/ventas/{notaID}/agregar-producto")
+	public String agregarProducto(@ModelAttribute("nota") NotaVenta nota,
 			@ModelAttribute("producto") ProductoAlmacenado producto, Model model) {
 
+		String clave = producto.getProducto().getClave();
+		if (clave != null && !(clave.trim().isEmpty())) {
+			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
+			if(item != null){
+				nota = notaVentaService.agregarProducto(nota, item);
+			}
+			LOGGER.info("## /ventas/search ## nota.toString: "+ nota);
+			model.addAttribute("nota", nota);
+		}
+
+		return "redirect:/ventas/" + nota.getId();
+	}
+	
+	@PostMapping(value = "/ventas/search")
+	public String _searchPrecio(@ModelAttribute("nota") NotaVenta nota,
+														 @ModelAttribute("producto") ProductoAlmacenado producto, Model model) {
+		
 		String clave = producto.getProducto().getClave();
 		if (clave != null && !(clave.trim().isEmpty())) {
 			ProductoAlmacenado item = this.productoService.getProductoAlmacenPorBarcode(clave);
@@ -86,11 +115,11 @@ public class NotaVentaController {
 			
 			LOGGER.info("## /ventas/search ## nota.toString: "+ nota);
 			model.addAttribute("nota", nota);
-
+			
 			model.addAttribute("detalleVenta", nota.getDetalleVenta());
 			model.addAttribute("productos", productos);
 		}
-
+		
 		return "redirect:/ventas/update";
 	}
 

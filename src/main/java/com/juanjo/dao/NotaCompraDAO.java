@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public interface NotaCompraDAO {
 	
-	public Serializable crearNotaCompra(NotaCompra nota);
+	public NotaCompra crearNotaCompra(NotaCompra nota);
 	public NotaCompra getNotaCompra(long id);
 	public void comprar(NotaCompra nota);
 	public void devolver(NotaCompra nota);

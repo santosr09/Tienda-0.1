@@ -15,19 +15,21 @@
     <!-- <link href="resources/datatables/media/css/jquery.dataTables.css" rel="stylesheet"> -->
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/media/js/jquery.dataTables.min.js"></script>
     
     <script>
 $(document).ready(function(){
+
+    $("#claveInput").focus();
 	
 	$( "#notaTable tbody tr" ).on( "change", function() {
 		  var row = $(this).find("#rowNum").text();
 		  var cantidad = parseFloat($(this).find("#cantidadInput").val()).toFixed(2);
-		  
-		  //var cantInput = $(this).find("#cantidad");
+
 		  var cantInput = $(this).find("#cantidadInput");
 		  var totLinea = $(this).find("#totalLinea");
 		  
@@ -42,7 +44,8 @@ $(document).ready(function(){
 	                	cantInput.html(cantidad);
 	                	totLinea.html(htmlTotLinea);
 	            	});
-		});
+	      $("#claveInput").focus();
+	});
     
 });
 </script>
@@ -77,13 +80,13 @@ $(document).ready(function(){
   	<div class="panel-heading"><h3>Nota de Venta:  <p:spinner />   ${nota.id} </h3></div>
   	
   	<div class="panel-body">
-  	<c:url var="searchAction" value="/ventas/search" ></c:url>
+  	<c:url var="searchAction" value="/ventas/${nota.id}/agregar-producto" ></c:url>
     	<form:form action="${searchAction}" commandName="producto" id="search-form" role = "form">
 		
 		<form:label path="producto.clave">
         	<spring:message text="Clave"/>
         </form:label>
-		<form:input id="claveInput" path="producto.clave" />
+		<form:input id="claveInput" path="producto.clave" tabindex="1"/>
 		<input type="submit" id="button-search"
 			value="<spring:message text="Buscar"/>" />
 
@@ -105,7 +108,7 @@ $(document).ready(function(){
   		</thead>
   			
   		<tbody>
-  			<c:forEach items="${detalleVenta}" var="item">
+  			<c:forEach items="${nota.detalleVenta}" var="item">
                     <tr>
                     	<td id='rowNum' class='col-md-1'>${item.rowNum}</td>
                     	<td id='cantidad' class='col-md-1'><input id='cantidadInput' path='item.unidades' value="${item.unidades}"/></td>

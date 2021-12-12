@@ -48,15 +48,10 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	public void cancelar(NotaVenta nota) {
 		daoNota.devolver(nota);
 	}
-
-	@Transactional
-	public void salidaProducto(String barcode, Double cantidad) {
-		daoAlmacen.descontarProductoAlmacen(barcode, cantidad);
-	}
-
-	@Transactional
-	public void devolverProducto(String barcode, Double cantidad) {
-		daoAlmacen.devolverProductoAlmacen(barcode, cantidad);
+	
+	@Override
+	public void devolverProducto(ProductoAlmacenado item, Double cantidad) {
+	  //daoAlmacen.
 	}
 
 	@Override
@@ -77,8 +72,7 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 		return nota;
 	}
 	
-	@Override
-	public NotaVenta buscaAgregaProducto(NotaVenta nota, String codigo) {
+/*	public NotaVenta buscaAgregaProducto(NotaVenta nota, String codigo) {
 		LOGGER.debug("buscaAgregaProducto(), codigo:" + codigo);
 		ProductoAlmacenado item =  daoAlmacen.getProductoPorBarcode(codigo);
 		DetalleVenta newDetalle = new DetalleVenta();
@@ -95,7 +89,7 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 		nota.setMontoTotal(totalAcumulado);
 		daoNota.update(nota);
 		return nota;
-	}
+	}*/
 	
 	private DetalleVenta creaDetalle(NotaVenta nota, ProductoAlmacenado item){
 		List<DetalleVenta> detalleNota = nota.getDetalleVenta();

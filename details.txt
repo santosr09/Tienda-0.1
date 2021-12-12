@@ -1,0 +1,55 @@
+Ventas
+
+Precios
+
+Inventario
+
+
+Ventas:
+Notas Venta
+-Botón grande NUEVA NOTA
+  --En renglon: Buscar producto por codigo/texto, enter, siguiente renglon nuevo.
+  --Lista de productos en la nota. posibilidad de editar cantidad de unidades
+-Desplegar listado de Notas
+-En cada renglón "ver detalle"
+  --Al entrar a detalle: Opciones de Editar nota(eliminar articulos de la nota), cancelar nota(devuelve todo a almacen),
+
+
+
+
+Precios
+-Buscar producto por codigo/texto
+-Desplegar precio, existencia
+
+
+Inventario
+-Listados ultimas compras
+-En cada renglón "ver detalle"
+  --Al entrar a detalle: Opciones de Editar nota(eliminar articulos de la nota), cancelar nota(descuenta todo de almacen)
+-Buscar producto por codigo/texto
+  --Desplegar precio venta, último precio compra, existencia. desplegar top 5 mejores precios compra(proveedor).
+-Proveedores
+  --Listar notas
+
+
+
+
+API:
+
+VENTAS:
+GET:/ventas response:{listado: notas-venta}
+GET:/ventas/{id_nota}
+POST:/ventas request{}, response:{nota-venta, detalle-venta}
+PUT:/ventas/{id-nota}  request:{nota-venta, detalle-venta}
+
+NUEVA NOTA:
+-POST:/ventas
+ --Save = PUT:/ventas/{id-nota} Guarda la nota, se actualiza en BD(existencias)
+ --Las modificaciones a nivel renglón NO se envían al back, los cálculos se realizan en el front.
+
+
+
+COMPRAS:
+GET:
+POST:
+PUT:

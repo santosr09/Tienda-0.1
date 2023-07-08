@@ -13,4 +13,5 @@ public interface NotaVentaService {
 	
 	public void devolverProducto(ProductoAlmacenado item, Double cantidad);
 
+    void salidaProducto(String clave, double cantidadDefault);
 }

@@ -1,4 +1,17 @@
+CREATE DATABASE tienda
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
 CREATE TABLE marca (
+	id BIGINT NOT NULL PRIMARY KEY,
+	descripcion   VARCHAR(100) NOT NULL,
+	status  INTEGER
+);
+
+CREATE TABLE categoria (
 	id BIGINT NOT NULL PRIMARY KEY,
 	descripcion   VARCHAR(100) NOT NULL,
 	status  INTEGER
@@ -165,9 +178,6 @@ VALUES(2, 'METRO', 1.0, 1.0, 0);
 INSERT INTO presentacion (id, nombre, unidades_contenidas, factor_conversion, status) 
 VALUES(3, 'KILO', 1.0, 1.0, 0);
 
-PASSWORD POSTGRES - > l**a1234
-
-
 
 id bigint NOT NULL,
   clave character varying(50) NOT NULL,
@@ -180,4 +190,4 @@ id bigint NOT NULL,
 
  7501001155841
 
- 
+ PASSWORD POSTGRES - > l**a1234

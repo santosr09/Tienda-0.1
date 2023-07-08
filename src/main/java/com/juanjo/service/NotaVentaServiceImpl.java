@@ -55,6 +55,11 @@ public class NotaVentaServiceImpl implements NotaVentaService {
 	}
 
 	@Override
+	public void salidaProducto(String clave, double cantidadDefault) {
+
+	}
+
+	@Override
 	public NotaVenta agregarProducto(NotaVenta nota, ProductoAlmacenado producto) {
 		LOGGER.debug("agergarProductoaNota(), producto:" + producto);
 		double totalAcumulado = 0.0;
